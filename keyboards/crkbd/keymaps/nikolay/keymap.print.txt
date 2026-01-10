@@ -3,6 +3,14 @@
                            Nikolay's Layout
 ================================================================================
 
+NOTES:
+- Caps Lock keys are remapped to Globe key (🌐) on macOS
+- Globe key enables macOS shortcuts and special functions
+- Multiple keys can function as Globe key (hold) throughout the layout
+- The Globe key on NAVIGATION layer is used for keyboard language switching
+
+================================================================================
+
 LAYER 0: BASE
 
      ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
@@ -39,7 +47,7 @@ LAYER 1: SYMBOLS
 LAYER 2: NAVIGATION
 
      ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
-     │     │     │     │     │     │     │       │HOME │PgDn │PgUp │ END │     │     │
+     │     │Caps │     │     │     │     │       │HOME │PgDn │PgUp │ END │     │     │
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
      │     │Shift│Ctrl │ Alt │ Cmd │ Caps│       │  ←  │  ↓  │  ↑  │  →  │     │     │
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
