@@ -25,10 +25,11 @@ This repository contains my custom QMK keyboard layouts using the QMK Userspace 
    qmk config user.overlay_dir=~/qmk_userspace
    ```
 
-4. Navigate to QMK firmware directory (important!):
+4. Initialize QMK submodules (run from QMK firmware directory):
    ```bash
    cd ~/qmk_firmware
    # or wherever your QMK firmware is located
+   qmk git-submodule
    ```
 
 5. Build your keyboard (run from QMK firmware directory):
