@@ -25,24 +25,39 @@ This repository contains my custom QMK keyboard layouts using the QMK Userspace 
    qmk config user.overlay_dir=~/qmk_userspace
    ```
 
-4. Build your keyboard:
+4. Navigate to QMK firmware directory (important!):
    ```bash
-   qmk compile -kb crkbd/rev1 -km nikolay
-   # or
-   qmk compile -kb crkbd/rev1 -km nikolay_rp2040
+   cd ~/qmk_firmware
+   # or wherever your QMK firmware is located
    ```
 
-5. Or use the userspace compile command to build all targets:
+5. Build your keyboard (run from QMK firmware directory):
    ```bash
+   # Build specific keymap
+   qmk compile -kb crkbd/rev1 -km nikolay
+   qmk compile -kb crkbd/rev1 -km nikolay_rp2040
+
+   # Alternative with /common variant
+   qmk compile -kb crkbd/rev1/common -km nikolay
+
+   # Build all targets defined in qmk.json
    qmk userspace-compile
    ```
 
 ## Flashing
 
+Make sure you're in the QMK firmware directory, then:
+
 ```bash
+# Flash nikolay keymap
 qmk flash -kb crkbd/rev1 -km nikolay
-# or
+# or with /common variant
+qmk flash -kb crkbd/rev1/common -km nikolay
+
+# Flash nikolay_rp2040 keymap
 qmk flash -kb crkbd/rev1 -km nikolay_rp2040
+# or with /common variant
+qmk flash -kb crkbd/rev1/common -km nikolay_rp2040
 ```
 
 ## Repository Structure
