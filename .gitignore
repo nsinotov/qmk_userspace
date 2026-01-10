@@ -1,0 +1,25 @@
+# Build artifacts
+*.hex
+*.bin
+*.uf2
+*.elf
+*.map
+*.sym
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Compiled files
+*.o
+*.d
+*.obj
+.build/
