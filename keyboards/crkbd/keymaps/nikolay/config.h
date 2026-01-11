@@ -9,7 +9,7 @@
 
 #define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
 
-#define COMBO_COUNT 1
+#define COMBO_COUNT 2
 #define COMBO_TERM 50
 // #define OLED_DISPLAY_128X64
 #define OLED_TIMEOUT 20000              // Turns off OLED after said amount of milliseconds

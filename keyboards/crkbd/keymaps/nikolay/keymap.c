@@ -208,9 +208,11 @@ void matrix_scan_user(void) {
     }
 }
 
-/* Combo K+L -> Esc */
+/* Combos: S+D -> Esc, K+L -> Esc */
+const uint16_t PROGMEM sd_combo[] = {LCTL_T(KC_S), LALT_T(KC_D), COMBO_END};
 const uint16_t PROGMEM kl_combo[] = {RALT_T(KC_K), RCTL_T(KC_L), COMBO_END};
 combo_t key_combos[] = {
+    COMBO(sd_combo, KC_ESC),
     COMBO(kl_combo, KC_ESC),
 };
 
