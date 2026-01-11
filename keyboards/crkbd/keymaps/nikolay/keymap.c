@@ -2,13 +2,9 @@
 
 // Custom keycodes for Globe key on hold
 enum custom_keycodes {
-    CAPS_G = SAFE_RANGE,  // tap=G, hold=Globe
-    CAPS_H,               // tap=H, hold=Globe
-    CAPS_PIPE,            // tap=|, hold=Globe
-    CAPS_MINUS,           // tap=-, hold=Globe
-    CAPS_5,               // tap=5, hold=Globe
-    CAPS_6,               // tap=6, hold=Globe
-    CAPS_NAV_G            // hold=Globe (no tap on nav layer)
+    CAPS_V = SAFE_RANGE,  // tap=V, hold=Globe
+    CAPS_M,               // tap=M, hold=Globe
+    CAPS_NAV_V            // tap=⌘V, hold=Globe (nav layer)
 };
 
 #define ALT_DQUOT LALT_T(KC_QUOT)  // tap = ', hold = Alt
@@ -17,6 +13,8 @@ enum custom_keycodes {
 
 static uint32_t keypress_counter = 0;
 static bool caps_lock_active = false;  // Track if any Globe key is held
+static uint16_t caps_nav_v_timer = 0;  // Timer for CAPS_NAV_V tap/hold detection
+static bool caps_nav_v_is_hold = false;  // Track if CAPS_NAV_V was held long enough
 
 #ifdef OLED_ENABLE
 
@@ -101,11 +99,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
 
         // Globe key on hold keys
-        case CAPS_G:
+        case CAPS_V:
             if (record->event.pressed) {
                 if (record->tap.count || get_mods() || caps_lock_active) {
-                    // If tapped or any modifier is active (including another CAPS key), send G
-                    tap_code(KC_G);
+                    // If tapped or any modifier is active (including another CAPS key), send V
+                    tap_code(KC_V);
                     return false;
                 } else {
                     caps_lock_active = true;
@@ -119,11 +117,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        case CAPS_H:
+        case CAPS_M:
             if (record->event.pressed) {
                 if (record->tap.count || get_mods() || caps_lock_active) {
-                    // If tapped or any modifier is active (including another CAPS key), send H
-                    tap_code(KC_H);
+                    // If tapped or any modifier is active (including another CAPS key), send M
+                    tap_code(KC_M);
                     return false;
                 } else {
                     caps_lock_active = true;
@@ -137,89 +135,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        case CAPS_PIPE:
+        case CAPS_NAV_V:
             if (record->event.pressed) {
-                if (record->tap.count || get_mods() || caps_lock_active) {
-                    tap_code16(KC_PIPE);
-                    return false;
-                } else {
-                    caps_lock_active = true;
-                    register_code(KC_CAPS);
-                }
+                // Key pressed - start timer
+                caps_nav_v_timer = timer_read();
+                caps_nav_v_is_hold = false;
             } else {
-                if (!record->tap.count && !get_mods()) {
+                // Key released
+                if (caps_nav_v_is_hold) {
+                    // Was a hold - release Caps Lock
                     caps_lock_active = false;
                     unregister_code(KC_CAPS);
-                }
-            }
-            return false;
-
-        case CAPS_MINUS:
-            if (record->event.pressed) {
-                if (record->tap.count || get_mods() || caps_lock_active) {
-                    tap_code(KC_PMNS);
-                    return false;
+                    caps_nav_v_is_hold = false;
                 } else {
-                    caps_lock_active = true;
-                    register_code(KC_CAPS);
+                    // Was a tap - send ⌘V
+                    tap_code16(LGUI(KC_V));
                 }
-            } else {
-                if (!record->tap.count && !get_mods()) {
-                    caps_lock_active = false;
-                    unregister_code(KC_CAPS);
-                }
-            }
-            return false;
-
-        case CAPS_5:
-            if (record->event.pressed) {
-                if (record->tap.count || get_mods() || caps_lock_active) {
-                    tap_code(KC_5);
-                    return false;
-                } else {
-                    caps_lock_active = true;
-                    register_code(KC_CAPS);
-                }
-            } else {
-                if (!record->tap.count && !get_mods()) {
-                    caps_lock_active = false;
-                    unregister_code(KC_CAPS);
-                }
-            }
-            return false;
-
-        case CAPS_6:
-            if (record->event.pressed) {
-                if (record->tap.count || get_mods() || caps_lock_active) {
-                    tap_code(KC_6);
-                    return false;
-                } else {
-                    caps_lock_active = true;
-                    register_code(KC_CAPS);
-                }
-            } else {
-                if (!record->tap.count && !get_mods()) {
-                    caps_lock_active = false;
-                    unregister_code(KC_CAPS);
-                }
-            }
-            return false;
-
-        case CAPS_NAV_G:
-            if (record->event.pressed) {
-                if (record->tap.count) {
-                    // If tapped, do nothing (placeholder for navigation layer)
-                    return false;
-                } else {
-                    // Hold: activate Globe key even if modifiers are active
-                    caps_lock_active = true;
-                    register_code(KC_CAPS);
-                }
-            } else {
-                if (!record->tap.count) {
-                    caps_lock_active = false;
-                    unregister_code(KC_CAPS);
-                }
+                // Reset timer
+                caps_nav_v_timer = 0;
             }
             return false;
     }
@@ -262,6 +195,19 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+// Matrix scan to handle CAPS_NAV_V hold detection
+void matrix_scan_user(void) {
+    if (caps_nav_v_timer && !caps_nav_v_is_hold) {
+        // Check if TAPPING_TERM has elapsed
+        if (timer_elapsed(caps_nav_v_timer) > TAPPING_TERM) {
+            // Held long enough - activate Caps Lock
+            caps_nav_v_is_hold = true;
+            caps_lock_active = true;
+            register_code(KC_CAPS);
+        }
+    }
+}
+
 /* Combo K+L -> Esc */
 const uint16_t PROGMEM kl_combo[] = {RALT_T(KC_K), RCTL_T(KC_L), COMBO_END};
 combo_t key_combos[] = {
@@ -273,9 +219,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                    ┌────────┬────────┬────────┬────────┬────────┬────────┐
       KC_NO,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
-      KC_NO,   LSFT_T(KC_A), LCTL_T(KC_S), LALT_T(KC_D), LGUI_T(KC_F), CAPS_G,    CAPS_H,    RGUI_T(KC_J), RALT_T(KC_K), RCTL_T(KC_L), RSFT_T(KC_SCLN), KC_NO,
+      KC_NO,   LSFT_T(KC_A), LCTL_T(KC_S), LALT_T(KC_D), LGUI_T(KC_F), KC_G,       KC_H,  RGUI_T(KC_J), RALT_T(KC_K), RCTL_T(KC_L), RSFT_T(KC_SCLN), KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
-      KC_NO,   HYPR_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,                    KC_N,    KC_M,    KC_COMM, KC_DOT,  HYPR_T(KC_SLSH), KC_NO,
+      KC_NO,   HYPR_T(KC_Z), KC_X, KC_C,  CAPS_V,  KC_B,                           KC_N,  CAPS_M,  KC_COMM, KC_DOT,  HYPR_T(KC_SLSH), KC_NO,
   //└────────┴────────┴────────┴────────┼────────┼────────┼────────┐  ┌────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                           KC_ESC,  LT(1,KC_TAB), LT(2,KC_SPC),  LT(4,KC_ENT), LT(3,KC_BSPC), KC_ESC
   //                                    └────────┴────────┴────────┘  └────────┴────────┴────────┘
@@ -285,7 +231,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                    ┌────────┬────────┬────────┬────────┬────────┬────────┐
       KC_NO,   KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
-      KC_NO,   LSFT_T(KC_DOT), LCTL_T(KC_COMM), ALT_DQUOT, LGUI_T(KC_QUOT), CAPS_PIPE, CAPS_MINUS, RGUI_T(KC_PEQL), RALT_T(KC_GRV), CTRL_LCBR, SHIFT_RCBR, KC_NO,
+      KC_NO,   LSFT_T(KC_DOT), LCTL_T(KC_COMM), ALT_DQUOT, LGUI_T(KC_QUOT), KC_PIPE,   KC_PMNS, RGUI_T(KC_PEQL), RALT_T(KC_GRV), CTRL_LCBR, SHIFT_RCBR, KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
       KC_NO,   KC_QUES, KC_SLSH, KC_LT,   KC_GT,   KC_BSLS,                     KC_UNDS, KC_PPLS, KC_TILD, KC_LBRC, KC_RBRC, KC_NO,
   //└────────┴────────┴────────┴────────┼────────┼────────┼────────┐  ┌────────┼────────┼────────┼────────┴────────┴────────┴────────┘
@@ -297,9 +243,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                    ┌────────┬────────┬────────┬────────┬────────┬────────┐
       KC_NO,   KC_CAPS, KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_NO,   KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
-      KC_NO,   KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, CAPS_NAV_G,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_NO,   KC_NO,
+      KC_NO,   KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, KC_NO,                        KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_NO,   KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
-      KC_NO,   KC_NO,   KC_NO,   LGUI(KC_C), LGUI(KC_V), KC_NO,                 KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+      KC_NO,   KC_NO,   KC_NO,   LGUI(KC_C), CAPS_NAV_V, KC_NO,                 KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
   //└────────┴────────┴────────┴────────┼────────┼────────┼────────┐  ┌────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                           KC_NO,   KC_NO,   KC_NO,     KC_ENT,  KC_DEL,  KC_NO
   //                                    └────────┴────────┴────────┘  └────────┴────────┴────────┘
@@ -309,7 +255,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                    ┌────────┬────────┬────────┬────────┬────────┬────────┐
       KC_NO,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
-      KC_NO,   LSFT_T(KC_1), LCTL_T(KC_2), LALT_T(KC_3), LGUI_T(KC_4), CAPS_5,    CAPS_6,    RGUI_T(KC_7), RALT_T(KC_8), RCTL_T(KC_9), RSFT_T(KC_0), KC_NO,
+      KC_NO,   LSFT_T(KC_1), LCTL_T(KC_2), LALT_T(KC_3), LGUI_T(KC_4), KC_5,       KC_6,    RGUI_T(KC_7), RALT_T(KC_8), RCTL_T(KC_9), RSFT_T(KC_0), KC_NO,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                    ├────────┼────────┼────────┼────────┼────────┼────────┤
       KC_NO,   KC_F11,  KC_NO,   KC_NO,   KC_NO,   KC_NO,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_F12,  KC_NO,
   //└────────┴────────┴────────┴────────┼────────┼────────┼────────┐  ┌────────┼────────┼────────┼────────┴────────┴────────┴────────┘

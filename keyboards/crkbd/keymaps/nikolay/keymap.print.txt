@@ -23,8 +23,9 @@ LAYER 0: BASE
                              │ ESC │ Tab │Space│ │Enter│Bksp │ ESC │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): A=Shift, S=Control, D=Option, F=Command, G=Caps Lock
-                           H=Caps Lock, J=Command, K=Option, L=Control, ;=Shift
+     Home row mods (hold): A=Shift, S=Control, D=Option, F=Command
+                           J=Command, K=Option, L=Control, ;=Shift
+     Bottom row mods (hold): V=Caps Lock, M=Caps Lock
      Combos: Z=Hyper, /=Hyper, K+L=Esc
 
 
@@ -40,8 +41,8 @@ LAYER 1: SYMBOLS
                              │     │     │     │ │Enter│ Del │ ESC │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): .=Shift, ,=Control, "=Option, '=Command, |=Caps Lock
-                           -=Caps Lock, ==Command, `=Option, {=Control, }=Shift
+     Home row mods (hold): .=Shift, ,=Control, "=Option, '=Command
+                           ==Command, `=Option, {=Control, }=Shift
 
 
 LAYER 2: NAVIGATION
@@ -49,15 +50,15 @@ LAYER 2: NAVIGATION
      ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
      │     │Caps │     │     │     │     │       │HOME │PgDn │PgUp │ END │     │     │
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-     │     │Shift│Ctrl │ Alt │ Cmd │ Caps│       │  ←  │  ↓  │  ↑  │  →  │     │     │
+     │     │Shift│Ctrl │ Alt │ Cmd │     │       │  ←  │  ↓  │  ↑  │  →  │     │     │
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
      │     │     │     │ ⌘C  │ ⌘V  │     │       │     │     │     │     │     │     │
      └─────┴─────┴─────┴─────┼─────┼─────┼─────┐ ┌─────┼─────┼─────┼─────┴─────┴─────┘
                              │     │     │     │ │Enter│ Del │     │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): G position=Caps Lock (placeholder - hold only)
-     Note: Left modifiers (Shift/Ctrl/Alt/Cmd) can be combined with G held for Globe combinations
+     Bottom row mods (hold): V position=Caps Lock (tap=⌘V, hold=Globe)
+     Note: Left modifiers (Shift/Ctrl/Alt/Cmd) can be combined with V held for Globe combinations
 
 
 LAYER 3: NUMBERS
@@ -72,8 +73,8 @@ LAYER 3: NUMBERS
                              │ ESC │ Tab │Space│ │     │     │     │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): 1=Shift, 2=Control, 3=Option, 4=Command, 5=Caps Lock
-                           6=Caps Lock, 7=Command, 8=Option, 9=Control, 0=Shift
+     Home row mods (hold): 1=Shift, 2=Control, 3=Option, 4=Command
+                           7=Command, 8=Option, 9=Control, 0=Shift
 
 
 LAYER 4: MEDIA
