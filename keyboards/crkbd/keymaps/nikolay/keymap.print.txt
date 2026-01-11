@@ -23,10 +23,10 @@ LAYER 0: BASE
                              │ ESC │ Tab │Space│ │Enter│Bksp │ ESC │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): A=Shift, S=Control, D=Option, F=Command
-                           J=Command, K=Option, L=Control, ;=Shift
+     Home row mods (hold): A=Shift, S=Control, D=Option, F=Command, G=Hyper
+                           H=Hyper, J=Command, K=Option, L=Control, ;=Shift
      Bottom row mods (hold): V=Caps Lock, M=Caps Lock
-     Combos: Z=Hyper, /=Hyper, K+L=Esc
+     Combos: K+L=Esc
 
 
 LAYER 1: SYMBOLS
