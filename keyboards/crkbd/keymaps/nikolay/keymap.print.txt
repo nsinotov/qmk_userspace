@@ -20,12 +20,13 @@ LAYER 0: BASE
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
      │     │  Z  │  X  │  C  │  V  │  B  │       │  N  │  M  │  ,  │  .  │  /  │     │
      └─────┴─────┴─────┴─────┼─────┼─────┼─────┐ ┌─────┼─────┼─────┼─────┴─────┴─────┘
-                             │ ESC │ Tab │Space│ │Enter│Bksp │ ESC │
+                             │Caps │ Tab │Space│ │Enter│Bksp │ CW  │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): A=Shift, S=Control, D=Option, F=Command, G=Hyper
-                           H=Hyper, J=Command, K=Option, L=Control, ;=Shift
+     Home row mods (hold): A=Option, S=Control, D=Command, F=Shift, G=Hyper
+                           H=Hyper, J=Shift, K=Command, L=Control, ;=Option
      Bottom row mods (hold): V=Caps Lock, M=Caps Lock
+     Left outer thumb: Caps Lock (Globe on macOS), Right outer thumb: Caps Word
      Combos: S+D=Esc, K+L=Esc
 
 
@@ -41,8 +42,8 @@ LAYER 1: SYMBOLS
                              │     │     │     │ │Enter│ Del │ ESC │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): .=Shift, ,=Control, "=Option, '=Command
-                           ==Command, `=Option, {=Control, }=Shift
+     Home row mods (hold): .=Option, ,=Control, "=Command, '=Shift
+                           ==Shift, `=Command, {=Control, }=Option
 
 
 LAYER 2: NAVIGATION
@@ -50,15 +51,16 @@ LAYER 2: NAVIGATION
      ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
      │     │Caps │     │     │     │     │       │HOME │PgDn │PgUp │ END │     │     │
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
-     │     │Shift│Ctrl │ Alt │ Cmd │     │       │  ←  │  ↓  │  ↑  │  →  │     │     │
+     │     │ Alt │Ctrl │ Cmd │Shift│     │       │  ←  │  ↓  │  ↑  │  →  │     │     │
      ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
      │     │     │     │ ⌘C  │ ⌘V  │     │       │     │     │     │     │     │     │
      └─────┴─────┴─────┴─────┼─────┼─────┼─────┐ ┌─────┼─────┼─────┼─────┴─────┴─────┘
-                             │     │     │     │ │Enter│ Del │     │
+                             │     │     │     │ │     │ Del │     │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
+     Right inner thumb is transparent (passes through to Enter/Mouse layer-tap)
      Bottom row mods (hold): V position=Caps Lock (tap=⌘V, hold=Globe)
-     Note: Left modifiers (Shift/Ctrl/Alt/Cmd) can be combined with V held for Globe combinations
+     Note: Left modifiers (Alt/Ctrl/Cmd/Shift) can be combined with V held for Globe combinations
 
 
 LAYER 3: NUMBERS
@@ -73,11 +75,29 @@ LAYER 3: NUMBERS
                              │ ESC │ Tab │Space│ │     │     │     │
                              └─────┴─────┴─────┘ └─────┴─────┴─────┘
 
-     Home row mods (hold): 1=Shift, 2=Control, 3=Option, 4=Command
-                           7=Command, 8=Option, 9=Control, 0=Shift
+     Home row mods (hold): 1=Option, 2=Control, 3=Command, 4=Shift
+                           7=Shift, 8=Command, 9=Control, 0=Option
 
 
-LAYER 4: MEDIA
+LAYER 4: MOUSE (Enter hold)
+
+     ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
+     │     │     │     │     │     │     │       │     │     │ M↑  │     │     │     │
+     ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
+     │     │ Alt │Ctrl │ Cmd │Shift│SCRL │       │     │ M←  │ M↓  │ M→  │     │     │
+     ├─────┼─────┼─────┼─────┼─────┼─────┤       ├─────┼─────┼─────┼─────┼─────┼─────┤
+     │     │     │     │     │     │     │       │     │     │     │     │     │     │
+     └─────┴─────┴─────┴─────┼─────┼─────┼─────┐ ┌─────┼─────┼─────┼─────┴─────┴─────┘
+                             │     │RCLK │LCLK │ │     │     │     │
+                             └─────┴─────┴─────┘ └─────┴─────┴─────┘
+
+     Hold G → SCROLL layer (mouse movement becomes scroll wheel)
+
+LAYER 5: SCROLL (G hold on MOUSE)
+
+     All keys transparent. Mouse movement keys become scroll wheel.
+
+LAYER 6: FUN (NAV + MOUSE conditional)
 
      ┌─────┬─────┬─────┬─────┬─────┬─────┐       ┌─────┬─────┬─────┬─────┬─────┬─────┐
      │     │     │     │ |<< │ >>| │ >|| │       │     │     │     │     │Reset│     │
